@@ -1,4 +1,4 @@
-package testcases::WebCondition;
+package testcases::Web::WebCondition;
 use strict;
 use XAO::Projects;
 use CGI::Cookie;

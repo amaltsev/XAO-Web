@@ -1,4 +1,4 @@
-package testcases::WebConfig;
+package testcases::Web::WebConfig;
 use strict;
 use XAO::Projects;
 use XAO::Utils;

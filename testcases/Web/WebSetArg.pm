@@ -1,4 +1,4 @@
-package testcases::WebSetArg;
+package testcases::Web::WebSetArg;
 use strict;
 use XAO::Projects;
 

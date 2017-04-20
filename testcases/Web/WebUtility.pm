@@ -1,4 +1,4 @@
-package testcases::WebUtility;
+package testcases::Web::WebUtility;
 use strict;
 use XAO::Projects;
 

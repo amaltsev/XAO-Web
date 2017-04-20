@@ -1,4 +1,4 @@
-package testcases::Templates;
+package testcases::Web::Templates;
 use strict;
 use XAO::Templates;
 use XAO::Projects;

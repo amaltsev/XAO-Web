@@ -1,6 +1,6 @@
 # A test for XAO::Web
 #
-package testcases::Web;
+package testcases::Web::Web;
 use strict;
 use XAO::Utils;
 use XAO::Web;

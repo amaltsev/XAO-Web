@@ -1,7 +1,7 @@
 # A test for cookies, both XAO::DO::Web::Cookie, and general
 # CGI/siteconfig cookie access.
 #
-package testcases::WebCookie;
+package testcases::Web::WebCookie;
 use strict;
 use HTTP::Response;
 use POSIX qw(strftime mktime);

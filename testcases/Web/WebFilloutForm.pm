@@ -1,4 +1,4 @@
-package testcases::WebFilloutForm;
+package testcases::Web::WebFilloutForm;
 use strict;
 use XAO::Projects;
 

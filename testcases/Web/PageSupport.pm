@@ -1,4 +1,4 @@
-package testcases::PageSupport;
+package testcases::Web::PageSupport;
 use strict;
 use Data::Dumper;
 use XAO::Utils;

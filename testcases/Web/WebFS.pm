@@ -1,4 +1,4 @@
-package testcases::WebFS;
+package testcases::Web::WebFS;
 use strict;
 use XAO::Projects;
 

@@ -1,4 +1,4 @@
-package testcases::FS;
+package testcases::Web::FS;
 use strict;
 use XAO::Objects;
 

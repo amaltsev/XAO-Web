@@ -1,4 +1,4 @@
-package testcases::WebBenchmark;
+package testcases::Web::WebBenchmark;
 use strict;
 use JSON;
 use XAO::Utils;

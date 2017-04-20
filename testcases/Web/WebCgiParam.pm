@@ -1,4 +1,4 @@
-package testcases::WebCgiParam;
+package testcases::Web::WebCgiParam;
 use strict;
 use XAO::Utils;
 use XAO::Projects;

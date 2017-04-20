@@ -1,4 +1,4 @@
-package testcases::WebDebug;
+package testcases::Web::WebDebug;
 use strict;
 use XAO::Utils;
 use XAO::Projects;

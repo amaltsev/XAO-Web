@@ -1,4 +1,4 @@
-package testcases::WebAction;
+package testcases::Web::WebAction;
 use strict;
 use XAO::Utils;
 use XAO::Errors qw(XAO::DO::Web::MyAction);

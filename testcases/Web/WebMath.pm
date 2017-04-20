@@ -1,4 +1,4 @@
-package testcases::WebMath;
+package testcases::Web::WebMath;
 use strict;
 use XAO::Utils;
 use XAO::Web;

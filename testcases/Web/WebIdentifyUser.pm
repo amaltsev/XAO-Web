@@ -1,4 +1,4 @@
-package testcases::WebIdentifyUser;
+package testcases::Web::WebIdentifyUser;
 use strict;
 use XAO::Utils;
 use CGI::Cookie;

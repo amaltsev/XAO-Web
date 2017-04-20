@@ -1,4 +1,4 @@
-package testcases::WebClipboard;
+package testcases::Web::WebClipboard;
 use strict;
 use XAO::Projects;
 

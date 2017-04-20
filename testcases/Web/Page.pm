@@ -1,4 +1,4 @@
-package testcases::Page;
+package testcases::Web::Page;
 use strict;
 use Encode;
 use XAO::Objects;

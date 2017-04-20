@@ -1,4 +1,4 @@
-package testcases::WebTextTable;
+package testcases::Web::WebTextTable;
 use strict;
 use XAO::Projects;
 use XAO::Utils;

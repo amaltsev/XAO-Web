@@ -1,4 +1,4 @@
-package testcases::WebStyler;
+package testcases::Web::WebStyler;
 use strict;
 use CGI;
 use XAO::Utils;

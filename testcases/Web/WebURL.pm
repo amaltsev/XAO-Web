@@ -1,4 +1,4 @@
-package testcases::WebURL;
+package testcases::Web::WebURL;
 use strict;
 use XAO::Utils;
 use XAO::Web;
