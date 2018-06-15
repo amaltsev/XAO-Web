@@ -143,7 +143,6 @@ sub analyze ($$;$$) {
     unshift(@$patharr,'');
     my $path=join('/',@$patharr);
 
-    ##
     # Looking for the object matching the path.
     #
     my $siteconfig=$self->config;
@@ -299,12 +298,17 @@ sub execute ($%) {
     my $self=shift;
     my $args=get_args(\@_);
 
-    # Setting dprint/eprint to Apache methods if needed
+    # Setting dprint/eprint to Apache or PSGI methods if needed
     #
     my $old_logprint_handler;
     if($args->{'apache'}) {
         $old_logprint_handler=XAO::Utils::set_logprint_handler(sub {
             $args->{'apache'}->server->warn($_[0]);
+        });
+    }
+    elsif($args->{'psgi'}) {
+        $old_logprint_handler=XAO::Utils::set_logprint_handler(sub {
+            $args->{'psgi'}->{'psgi.errors'}->print($_[0]."\n");
         });
     }
 
@@ -374,8 +378,15 @@ sub execute ($%) {
     # expected to print out the page. This is almost always true except
     # when page includes something like Redirect object.
     #
+    my $result;
     if(defined $header) {
-        if(my $r=$args->{'apache'}) {
+        if(my $env=$args->{'psgi'}) {
+            $result=[
+                $args->{'cgi'}->psgi_header($self->config->header_args),
+                [ $pagetext ],
+            ];
+        }
+        elsif(my $r=$args->{'apache'}) {
             my $h=$self->config->header_args;
 
             if($mod_perl::VERSION && $mod_perl::VERSION >= 1.99) {
@@ -412,6 +423,10 @@ sub execute ($%) {
     # Restoring the default dprint/eprint handling
     #
     XAO::Utils::set_logprint_handler($old_logprint_handler) if $old_logprint_handler;
+
+    # Only really needed for PSGI
+    #
+    return $result;
 }
 
 ###############################################################################
@@ -562,6 +577,8 @@ sub process ($%) {
     my $apache=$args->{'apache'};
     my $cgi=$args->{'cgi'};
     if(!$cgi) {
+        !$args->{'psgi'} ||
+            throw XAO::E::Web "- need to have a CGI with PSGI";
         $cgi=XAO::Objects->new(objname => 'CGI', no_cgi => $pd->{'no_cgi'});
     }
     if($apache) {
@@ -843,7 +860,7 @@ sub new ($%) {
     # CGI in args is not supported any more, needs to be passed in execute
     #
     $args->{'cgi'} &&
-        throw XAO::E::Web "new - 'cgi' argument to 'new' is not supported, pass it to 'execute'";
+        throw XAO::E::Web "- 'cgi' argument to 'new' is not supported, pass it to 'execute'";
 
     # This helps Mailer to be called outside of web context.
     # TODO: Probably need some better initialization strategy, this does
