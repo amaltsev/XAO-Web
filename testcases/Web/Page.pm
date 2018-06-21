@@ -279,7 +279,7 @@ sub test_params_digest {
             "Expected a defined JSON digest for '$spec_json'");
 
         $self->assert($params_json eq $ptest->{'expect'},
-            "Expected '$ptest->{'expect'}', got '$params_json' for '$spec_json'");
+            "For '$spec_json':\nWant: '$ptest->{'expect'}'\nHave: '$params_json'\n");
     }
 }
 
@@ -347,6 +347,92 @@ sub test_cgi_param_charsets {
         my $expect=$test->{'expect'};
         $self->assert($got eq $expect,
                       "Test $tname - expected '$expect', got '$got'");
+    }
+}
+
+###############################################################################
+
+sub test_cgi_proxy {
+    my $self=shift;
+
+    my $cgi=XAO::Objects->new(objname => 'CGI');
+
+    $self->assert($cgi->isa('XAO::DO::CGI'),
+                  "Expected CGI to be XAO::DO::CGI, got ".ref($cgi)." (1)");
+
+    # Checking a method that is not overridden in the XAO::DO::CGI
+    #
+    $cgi->param('param1' => 'value1');
+    my $vars=$cgi->Vars();
+    $self->assert(ref($vars) eq 'HASH',
+        "Expected cgi->Vars() to return a HASH, got ".($vars//'<undef>'));
+    $self->assert($vars->{'param1'} eq 'value1',
+        "Expected Vars() to have 'param1'='value1', got '".($vars->{'param1'}//'<undef>')."'");
+
+    # Supplied query string
+    #
+    $cgi=XAO::Objects->new(objname => 'CGI', query => 'test1=value1&test2=value2');
+
+    $self->assert($cgi->isa('XAO::DO::CGI'),
+        "Expected CGI to be XAO::DO::CGI, got ".ref($cgi)." (2)");
+
+    $self->assert($cgi->param('test1') eq 'value1',
+        "Expected query CGI param(test1) to be 'value1'");
+
+    $self->assert($cgi->param('test2') eq 'value2',
+        "Expected query CGI param(test1) to be 'value1'");
+
+    # Trying an externally supplied object
+    #
+    my $fubarizer=XAO::Objects->new(objname => 'FakeCGI');
+    $cgi=XAO::Objects->new(objname => 'CGI', cgi => $fubarizer);
+
+    $self->assert($cgi->isa('XAO::DO::CGI'),
+        "Expected CGI to be XAO::DO::CGI, got ".ref($cgi)." (3)");
+
+    $self->assert(defined $cgi->can('param'),
+        "Expected fubarizer CGI to can('param')");
+
+    $self->assert(defined $cgi->can('fubarize'),
+        "Expected fubarizer CGI to can('fubarize')");
+
+    $self->assert(!defined $cgi->can('nonexistent'),
+        "Expected fubarizer to can-not('nonexistent')");
+
+    my $got=$cgi->fubarize('test');
+    $self->assert($got eq 'fubar:test',
+        "Expected fubarize('test') to equal 'fubar:test', got ".($got//'<undef>'));
+
+    # PSGI wrapper
+    #
+    my $env={ test1 => '123' };
+    my $psgi;
+    eval {
+        require CGI::PSGI;
+        $psgi=CGI::PSGI->new($env);
+    };
+    if($@) {
+        eprint "No CGI::PSGI available, skipped testing";
+    }
+    else {
+        $cgi=XAO::Objects->new(objname => 'CGI', cgi => $psgi);
+
+        $self->assert($cgi->isa('XAO::DO::CGI'),
+            "Expected CGI to be XAO::DO::CGI, got ".ref($cgi)." (4)");
+
+        $self->assert(defined $cgi->can('env'),
+            "Expected PSGI CGI to can('env')");
+
+        $got=$cgi->env->{'test1'};
+        $self->assert($got eq '123',
+            "Expected PSGI CGI env to have test1=123, got ".($got//'<undef>'));
+
+        $cgi->param(ucode => "Test \x{2122}");
+        $got=$cgi->param('ucode');
+        $self->assert(Encode::is_utf8($got),
+            "Expected to receive a unicode string");
+        $self->assert($got eq "Test \x{2122}",
+            "Expected PSGI CGI param('ucode') to be 'Test \\x{2122}', got '".($got//'<undef>')."'");
     }
 }
 

@@ -113,7 +113,10 @@ sub call {
 
     # Substitute CGI environment
     #
-    my $cgi=CGI::PSGI->new($env);
+    my $cgi=XAO::Objects->new(
+        objname => 'CGI',
+        cgi     => CGI::PSGI->new($env),
+    );
 
     # Executing
     #
