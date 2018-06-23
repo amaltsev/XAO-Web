@@ -2,13 +2,13 @@ CHANGES
 LICENSE
 MANIFEST
 MANIFEST.SKIP
-META.yml
+MYMETA.json
+MYMETA.yml
 Makefile.PL
 PageSupport/Makefile.PL
 PageSupport/PageSupport.pm
 PageSupport/PageSupport.xs
 README
-TODO
 Web.pm
 bench/bench-cache.pl
 bench/bench.pl
@@ -94,7 +94,6 @@ templates/bits/page-header
 templates/bits/styler/page-title
 templates/index.html
 test.pl
-testcases/Web/FS.pm
 testcases/Web/Page.pm
 testcases/Web/PageSupport.pm
 testcases/Web/Templates.pm

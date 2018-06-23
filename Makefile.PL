@@ -141,10 +141,12 @@ WriteMakefile(
         'XAO::Base'                 => 1.16,
         'XAO::FS'                   => 1.17,
     },
-    'INSTALLBIN'	=> $homedir . '/bin',
-    'INSTALLSCRIPT'	=> $homedir . '/handlers',
-    'EXE_FILES'     => [ 'handlers/xao-apache.pl' ],
+    #
     'MAN3PODS'      => \%man3pods,
+    #
+    ### 'INSTALLDIRS'       => 'site',
+    ### 'INSTALLSITESCRIPT'	=> $homedir . '/handlers',
+    ### 'EXE_FILES'         => [ 'handlers/xao-apache.pl', 'handlers/xao.psgi' ],
 );
 
 sub MY::postamble
@@ -153,13 +155,27 @@ sub MY::postamble
 config::	README
 
 README:	lib/XAO/Web/Intro.pod
-	pod2text -w76 lib/XAO/Web/Intro.pod > README
+\tpod2text -w76 lib/XAO/Web/Intro.pod > README
 
-install::
-	[ -d $homedir ] || mkdir $homedir && chmod 755 $homedir
-	\@\$(PERL) -Mblib \\
-	           -MXAO::PluginUtils=install_templates \\
-	           -e'install_templates("MANIFEST")'
+install:: install_templates install_handlers
 
+install_templates:
+\t\@[ -d "$homedir" ] || \$(PERL) -e 'mkdir("$homedir",0755)'
+\t\@\$(PERL) -Mblib \\
+\t           -MXAO::PluginUtils=install_templates \\
+\t           -e'install_templates("MANIFEST")'
+
+install_handlers:
+\t\@[ -d "$homedir" ] || \$(PERL) -e 'mkdir("$homedir",0755)'
+\t\@\$(PERL) -MExtUtils::Install \\
+\t           -e'install({"handlers" => "$homedir/handlers"})'
+\t\@[ -f "\$(INSTALLSITEBIN)/xao-apache.pl" ] && ( \\
+\t        echo "!!!"; \\
+\t        echo "!!! You have \$(INSTALLSITEBIN)/xao-apache.pl"; \\
+\t        echo "!!! The new location is $homedir/handlers/xao-apache.pl"; \\
+\t        echo "!!! Update your references and delete the old file!"; \\
+\t        echo "!!!"; \\
+\t    ); \\
+\t    ln -sf "$homedir/handlers/xao-apache.pl" "\$(INSTALLSITEBIN)/xao-apache.pl"
 EOT
 }
