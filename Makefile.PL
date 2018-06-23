@@ -175,7 +175,7 @@ install_handlers:
 \t        echo "!!! The new location is $homedir/handlers/xao-apache.pl"; \\
 \t        echo "!!! Update your references and delete the old file!"; \\
 \t        echo "!!!"; \\
-\t    ); \\
-\t    ln -sf "$homedir/handlers/xao-apache.pl" "\$(INSTALLSITEBIN)/xao-apache.pl"
+\t        ln -sf "$homedir/handlers/xao-apache.pl" "\$(INSTALLSITEBIN)/xao-apache.pl"; \\
+\t    ) || exit 0
 EOT
 }
