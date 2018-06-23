@@ -51,7 +51,17 @@ sub set_up {
     $self->{'web'}=$site;
     $self->{'cgi'}=$cgi;
 
+    $self->{'skip_db_tests'}=$site->config->can('odb') ? 0 : 1;
+
     return $self;
+}
+
+sub check_reqs {
+    my ($self,$name)=@_;
+    return 1 unless $self->{'skip_db_tests'};
+    return 1 unless $name =~ /_db_/;
+    dprint "Skipping test $name (no database config)";
+    return 0;
 }
 
 sub cgi_object {

@@ -14,7 +14,7 @@ use base qw(XAO::testcases::Web::base);
 
 ###############################################################################
 
-sub test_fail_blocking {
+sub test_db_fail_blocking {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -319,7 +319,7 @@ sub test_fail_blocking {
 
 ###############################################################################
 
-sub test_no_vf_key {
+sub test_db_no_vf_key {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -606,7 +606,7 @@ sub test_no_vf_key {
 
 ###############################################################################
 
-sub test_vf_key_simple {
+sub test_db_vf_key_simple {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -819,7 +819,7 @@ sub test_vf_key_simple {
 
 ###############################################################################
 
-sub test_user_prop_list {
+sub test_db_user_prop_list {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -1001,7 +1001,7 @@ sub test_user_prop_list {
 
 ###############################################################################
 
-sub test_user_prop_hash {
+sub test_db_user_prop_hash {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -1757,7 +1757,7 @@ sub test_user_prop_hash {
 
 ###############################################################################
 
-sub test_key_list {
+sub test_db_key_list {
     my $self=shift;
 
     my $config=$self->siteconfig;
@@ -3695,7 +3695,7 @@ sub test_key_list {
 
 ###############################################################################
 
-sub test_crypto {
+sub test_db_crypto {
     my $self=shift;
 
     my $config=$self->siteconfig;

@@ -6,7 +6,7 @@ use base qw(XAO::testcases::Web::base);
 
 ###############################################################################
 
-sub test_all {
+sub test_db_all {
     my $self=shift;
 
     my $odb=XAO::Objects->new(objname => 'Web::Page')->odb;
@@ -99,7 +99,7 @@ sub test_all {
 
 ###############################################################################
 
-sub test_search {
+sub test_db_search {
     my $self=shift;
 
     my $odb=XAO::Objects->new(objname => 'Web::Page')->odb;

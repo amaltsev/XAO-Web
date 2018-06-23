@@ -1004,7 +1004,7 @@ sub test_expand {
 
 ###############################################################################
 
-sub test_fs {
+sub test_db_fs {
     my $self=shift;
 
     my $page=XAO::Objects->new(objname => 'Web::Page');

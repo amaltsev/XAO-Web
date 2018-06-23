@@ -52,20 +52,25 @@ sub init {
     eval $t;
     $@ && throw XAO::E::DO::Config "init - error in .config file: $@";
 
-    my $fsconfig=XAO::Objects->new(
-        objname => 'FS::Config',
-        odb_args => {
-            dsn                 => $d{'test_dsn'},
-            user                => $d{'test_user'},
-            password            => $d{'test_password'},
-            empty_database      => 'confirm',
-            check_consistency   => 1,
-        },
-    );
+    # There may not be a database connector. Tests will be restricted
+    # to non-database in that case.
+    #
+    if($d{'test_dsn'} ne 'none') {
+        my $fsconfig=XAO::Objects->new(
+            objname => 'FS::Config',
+            odb_args => {
+                dsn                 => $d{'test_dsn'},
+                user                => $d{'test_user'},
+                password            => $d{'test_password'},
+                empty_database      => 'confirm',
+                check_consistency   => 1,
+            },
+        );
 
-    $self->embed(
-        fs => $fsconfig,
-    );
+        $self->embed(
+            fs => $fsconfig,
+        );
+    }
 
     return $self->SUPER::init();
 }

@@ -1,11 +1,9 @@
-# Copyright (c) 1997-2001 XAO Inc.
-###############################################################################
+#!/usr/bin/env perl
+use warnings;
+use strict;
 use ExtUtils::MakeMaker;
 use ExtUtils::Manifest;
 
-##
-# Reading configuration
-#
 my %d;
 if(open(F,'.config')) {
     local($/);
@@ -13,68 +11,76 @@ if(open(F,'.config')) {
     close(F);
     eval $t;
 }
-while(!$d{test_dsn}) {
+
+while(!$d{'test_dsn'}) {
     print <<EOT;
 
 XAO::Web will need access to a XAO::FS database in order to run tests.
 That database will be COMPLETELY DESTROYED AND OVERRIDEN every time you
 run 'make test'.
 
-The database have to be created, but it does not matter what it contains.
-
-Please enter access information (brackets contain default values):
+The database has to be created, but it does not matter what tables it
+contains - they will all be dropped.
 
 EOT
-    my $dsn='OS:MySQL_DBI:test_fs';
-    print "DSN: [$dsn] ";
-    chomp(my $str=<STDIN>);
-    if($str) {
-        if($str =~ /^\s*(OS:(\w+):(\w+)(;.*?)?)\s*$/) {
-            $dsn=$1;
-        }
-        else {
+
+    my $yn=prompt('Would you like to run database tests?','n');
+
+    if($yn !~ /^y/i) {
+        $d{'test_dsn'}='none';
+        $d{'test_user'}='';
+        $d{'test_password'}='';
+    }
+    else {
+        print <<EOT;
+
+Enter database connection parameters.
+
+EOT
+
+        my $dsn=prompt('DSN','OS:MySQL_DBI:test_fs;table_type=innodb');
+
+        $dsn=~ /^\s*(OS:(\w+):(\w+)(;.*?)?)\s*$/ ||
             die "Incorrect DSN entered!\n";
-        }
-    }
-    chomp(my $user=`whoami`);
-    print "User name: [$user] ";
-    chomp($str=<STDIN>);
-    if($str && $str=~/^\s*(.*?)\s*$/) {
-        $user=$1;
-    }
-    my $pass='';
-    print "Password: [$pass] ";
-    chomp($str=<STDIN>);
-    if($str && $str=~/^\s*(.*?)\s*$/) {
-        $pass=$1;
-    }
 
-    print <<EOT;
+        $dsn=$1;
 
-Here is what will be used to connect to the test database
-(and DESTROY it):
+
+                chomp(my $default_user=`whoami`);
+        my $user=prompt('User name',$default_user);
+        my $pass=prompt('Password','');
+
+        print <<EOT;
+
+Here is what will be used to connect to TEST database.
+
    DSN:      $dsn
    User:     $user
-   Password: $password
+   Password: $pass
+
+The database WILL BE COMPLETELY ERASED!
 
 EOT
-    $|=1;
-    print "Does it make sense ? [Y/n] y\b";
-    chomp($str=<STDIN>);
-    if(!$str || lc($str)=~/y/) {
-        open(F,">.config") || die "Can't open .config: $!\n";
-        print F <<EOT;
+
+        $yn=prompt('Does it make sense ?','y');
+
+        die "Ok, please re-configure.\n" unless $yn=~/^y/i;
+
+        $d{'test_dsn'}=$dsn;
+        $d{'test_user'}=$user;
+        $d{'test_password'}=$pass;
+    }
+
+    open(F,">.config") || die "Can't open .config: $!\n";
+    print F <<EOT;
 ## Feel free to remove or edit that file. It will be re-created on `perl
 ## Makefile.PL' if removed.
-\$d{test_dsn}='$dsn';
-\$d{test_user}='$user';
-\$d{test_password}='$pass';
+\$d{'test_dsn'}='$d{'test_dsn'}';
+\$d{'test_user'}='$d{'test_user'}';
+\$d{'test_password'}='$d{'test_password'}';
 EOT
-        last;
-    }
 }
 
-##
 # This rather stupid workaround is here because for some reason
 # MakeMaker excludes /Config/ files from MAN3PODS
 #
