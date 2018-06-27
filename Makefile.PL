@@ -169,6 +169,7 @@ install_handlers:
 \t\@[ -d "$homedir" ] || \$(PERL) -e 'mkdir("$homedir",0755)'
 \t\@\$(PERL) -MExtUtils::Install \\
 \t           -e'install({"handlers" => "$homedir/handlers"})'
+\t\@chmod 755 "$homedir/handlers/xao-apache.pl"
 \t\@[ -f "\$(INSTALLSITEBIN)/xao-apache.pl" ] && ( \\
 \t        echo "!!!"; \\
 \t        echo "!!! You have \$(INSTALLSITEBIN)/xao-apache.pl"; \\
