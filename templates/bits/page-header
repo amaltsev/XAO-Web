@@ -5,4 +5,4 @@
   <title><$TITLE/h$></title>
   <$META$>
 </head>
-<body style="max-width: 1200px; margin: 0 auto">
+<body style="max-width: 1200px; margin: 0 auto; padding: 15px">

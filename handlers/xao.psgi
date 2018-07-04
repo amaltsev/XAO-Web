@@ -6,7 +6,7 @@ use Plack::App::XAO;
 use Plack::Builder;
 
 my $site=$ENV{'XAO_SITE_NAME'} ||
-    die "\n\nUsage: XAO_SITE_NAME=example plackup misc/xao.psgi\n\n";
+    die "\n\nUsage: XAO_SITE_NAME=example plackup xao.psgi\n\n";
 
 builder {
     enable_if { $ENV{'PLACK_ENABLE_DEBUG'} } 'Debug';

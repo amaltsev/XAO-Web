@@ -1,10 +1,14 @@
-FROM centos:centos7 AS xao-web
-
-# Software versions to pull
+# Software versions to pull. Use --build-arg to override:
+#  docker build --build-arg XAO_WEB_VERSION=1.66 -t xao-web:1.66 .
 #
-ARG XAO_BASE_VERSION=1.17
-ARG XAO_FS_VERSION=1.18
-ARG XAO_WEB_VERSION=1.65
+ARG CENTOS_VERSION=centos7
+ARG XAO_BASE_VERSION=master
+ARG XAO_FS_VERSION=master
+ARG XAO_WEB_VERSION=master
+
+# CentOS makes for an easier to use environment.
+#
+FROM centos:$CENTOS_VERSION
 
 # MariaDB repository
 #
@@ -53,7 +57,7 @@ ENV XAO_SITE_NAME="app"
 # Specify additional Starman options on docker
 # run command line if needed.
 #
-ENTRYPOINT [ \
+CMD [ \
     "starman", \
         "--port","80", \
         "--user","nobody", \

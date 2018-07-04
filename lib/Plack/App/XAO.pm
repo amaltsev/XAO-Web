@@ -30,6 +30,11 @@ sub call {
     $sitename=~/^[\w-]+$/ ||
         die "Invalid site name\n";
 
+    # Plack does not set up HTTPS in its environment. And CGI::PSGI
+    # fails to detect https environment without that.
+    #
+    $env->{'HTTPS'}=($env->{'psgi.url_scheme'}//'') eq 'https' ? 'on' : '';
+
     # Plack does not seem to be doing any URI validation or cleaning.
     #
     my $uri=$env->{'PATH_INFO'};
