@@ -10,17 +10,16 @@
 #   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/app amaltsev/xao-web
 #------------------------------------------------------------------------------
 
+# CentOS makes for an easier to use environment.
+#
+FROM centos:centos7
+
 # Software versions to pull. Use --build-arg to override:
 #  docker build --build-arg XAO_WEB_VERSION=1.66 -t xao-web:1.66 .
 #
-ARG CENTOS_VERSION=centos7
 ARG XAO_BASE_VERSION=master
 ARG XAO_FS_VERSION=master
 ARG XAO_WEB_VERSION=master
-
-# CentOS makes for an easier to use environment.
-#
-FROM centos:$CENTOS_VERSION
 
 # MariaDB repository
 #

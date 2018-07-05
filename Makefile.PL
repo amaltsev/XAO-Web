@@ -178,5 +178,14 @@ install_handlers:
 \t        echo "!!!"; \\
 \t        ln -sf "$homedir/handlers/xao-apache.pl" "\$(INSTALLSITEBIN)/xao-apache.pl"; \\
 \t    ) || exit 0
+
+docker-image:
+\tcd docker; docker build --build-arg "XAO_WEB_VERSION=$(VERSION)" -t xao-web .
+\t\@echo ""
+\t\@echo "=== Docker image built, tag and push it:"
+\t\@echo "===    docker tag xao-web:latest amaltsev/xao-web:\$(VERSION)"
+\t\@echo "===    docker push amaltsev/xao-web:$(VERSION)"
+\t\@echo "===    docker tag xao-web:latest amaltsev/xao-web:latest"
+\t\@echo "===    docker push amaltsev/xao-web:latest"
 EOT
 }

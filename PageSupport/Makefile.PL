@@ -2,7 +2,7 @@ use 5.008006;
 use ExtUtils::MakeMaker;
 
 ### $CC='c++';
-### 
+###
 ### WriteMakefile(
 ###     NAME                => 'XAO::PageSupport',
 ###     VERSION_FROM        => 'PageSupport.pm',
@@ -18,5 +18,5 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     'NAME'		=> 'XAO::PageSupport',
-    'VERSION_FROM'	=> 'PageSupport.pm'
+    'VERSION'	=> '2.2',
 );
