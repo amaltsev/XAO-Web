@@ -15,7 +15,7 @@ use XAO::Errors qw(XAO::Web);
 # XAO::Web version number. Hand changed with every release!
 #
 use vars qw($VERSION);
-$VERSION='1.66';
+$VERSION='1.67';
 
 ###############################################################################
 
@@ -381,8 +381,12 @@ sub execute ($%) {
     my $result;
     if(defined $header) {
         if(my $env=$args->{'psgi'}) {
+
+            # Can't use $header, need an array that includes header_args
+            # and cookies.
+            #
             $result=[
-                $args->{'cgi'}->psgi_header($self->config->header_args),
+                $args->{'cgi'}->psgi_header({ $self->config->header_array() }),
                 [ $pagetext ],
             ];
         }

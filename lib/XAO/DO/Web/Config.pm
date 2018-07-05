@@ -41,13 +41,10 @@ sub enable_special_access ($);
 sub force_byte_output ($;$);
 sub header ($@);
 sub header_args ($@);
+sub header_array ($);
+sub header_printed ($);
 sub get_cookie ($$;$);
 sub new ($@);
-
-# Package version for checks and reference
-#
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Config.pm,v 2.4 2007/12/05 23:49:21 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
 
 ###############################################################################
 
@@ -304,8 +301,8 @@ force_byte_output(), header(), header_args().
 
 sub embeddable_methods ($) {
     qw(
-        add_cookie cgi clipboard cookies force_byte_output header
-        header_args get_cookie
+        add_cookie cgi clipboard cookies force_byte_output
+        header header_args header_array get_cookie
     );
 }
 
@@ -376,7 +373,16 @@ sub header ($@) {
     return undef if $self->{'header_printed'};
 
     $self->header_args(@_) if @_;
+
     $self->{'header_printed'}=1;
+
+    return $self->cgi->header($self->header_array());
+}
+
+###############################################################################
+
+sub header_array ($) {
+    my $self=shift;
 
     # There is a silly bug (or a truly misguided undocumented feature)
     # in CGI. It works with headers correctly only if the first header
@@ -404,12 +410,11 @@ sub header ($@) {
     # Using the always present '-cookie' header to fill the front row.
     #
     my $header_args=$self->{'header_args'} || { };
-    my @headers=(
+
+    return (
         '-cookie'   => ($header_args->{'-cookie'} || $header_args->{'Cookie'} || $self->cookies || []),
         %$header_args,
     );
-
-    return $self->cgi->header(@headers);
 }
 
 ###############################################################################
