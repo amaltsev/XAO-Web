@@ -14,6 +14,8 @@
 #
 FROM centos:centos7
 
+LABEL maintainer="Andrew Maltsev am@ejelta.com"
+
 # Software versions to pull. Use --build-arg to override:
 #  docker build --build-arg XAO_WEB_VERSION=1.66 -t xao-web:1.66 .
 #
@@ -21,10 +23,16 @@ ARG XAO_BASE_VERSION=master
 ARG XAO_FS_VERSION=master
 ARG XAO_WEB_VERSION=master
 
-# MariaDB repository
+# MariaDB repository.
 #
-COPY MariaDB.repo /etc/yum.repos.d/MariaDB.repo
-RUN rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+# TODO: Update to 10.3 when DBD::mysql is working.
+#
+RUN echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo && \
+    echo "name=MariaDB" >> /etc/yum.repos.d/MariaDB.repo && \
+    echo "baseurl=http://yum.mariadb.org/10.1/centos7-amd64" >> /etc/yum.repos.d/MariaDB.repo && \
+    echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/MariaDB.repo && \
+    echo "gpgcheck=1" >> /etc/yum.repos.d/MariaDB.repo && \
+    rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
 # Basic package dependencies
 #
@@ -32,6 +40,7 @@ RUN yum upgrade -y              \
     && \
     yum install -y              \
         gcc                     \
+        gcc-c++                 \
         perl-App-cpanminus      \
         perl-LWP-Protocol-https \
         openssl-devel           \
@@ -41,11 +50,8 @@ RUN yum upgrade -y              \
 
 # File::ShareDir fails normal installation
 #
-RUN cpanm \
-        --force File::ShareDir \
-        2>&1 \
-    && \
-    cpanm \
+RUN   cpanm \
+        Carton \
         Plack \
         Plack::Middleware::Debug \
         Starman \
@@ -57,11 +63,6 @@ RUN cpanm \
     && \
     rm -rf /root/.cpanm /usr/local/share/man
 
-# Exposing 80, re-route as needed with:
-#   docker run --publish 8080:80 amaltsev/xao-web:latest
-#
-EXPOSE 80
-
 # The default site name, override with:
 #   docker run --env XAO_SITE_NAME=yoursite ...
 #
@@ -70,21 +71,40 @@ EXPOSE 80
 #
 ENV XAO_SITE_NAME="app"
 
-# Run with plackup by default, for starman use:
-#  docker run --env PSGI_RUNNER=starman ...
+# Executing the site. Examples:
 #
-ENV PSGI_RUNNER="plackup"
+#   docker run --publish 8080:80 amaltsev/xao-web
+#
+#   docker run --publish 8080:80 --env PSGI_RUNNER=starman amaltsev/xao-web
 
-# Specify additional Starman/Plackup options on docker
-# run command line if needed.
+#   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/app amaltsev/xao-web
 #
-CMD if [ -f /opt/xao/projects/$XAO_SITE_NAME/cpanfile ]; then \
-        cd /opt/xao/projects/$XAO_SITE_NAME; \
-        cpanm . --installdeps; \
-    fi; \
+#   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/mysite --env XAO_SITE_NAME=mysite amaltsev/xao-web
+#
+#   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/app --env PSGI_RUNNER="carton exec starman" amaltsev/xao-web
+#
+#   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/app \
+#           --env PSGI_BUILDER="carton install" \
+#           --env PSGI_RUNNER="carton exec plackup" \
+#           --env PSGI_OPTIONS="-R templates,objects" \
+#           amaltsev/xao-web
+#
+# Port 80 is not exposed in the image to make it easier to extend this
+# with other port and cmd configurations.
+#
+# Not using 'exec' on the runner to make it easier to stop it with ^C on
+# interactive runs. Plackup itself does not react to ^C.
+#
+ENV PSGI_BUILDER=""
+ENV PSGI_RUNNER="plackup"
+ENV PSGI_PORT="80"
+ENV PSGI_OPTIONS=""
+
+CMD if [ -d /opt/xao/projects/$XAO_SITE_NAME ]; then cd /opt/xao/projects/$XAO_SITE_NAME; fi; \
+    $PSGI_BUILDER; \
     $PSGI_RUNNER \
-        --port 80 \
+        --port "$PSGI_PORT" \
         --user nobody \
         --group nobody \
-        -R "/opt/xao/projects/$XAO_SITE_NAME/objects,/opt/xao/projects/$XAO_SITE_NAME/templates" \
+        $PSGI_OPTIONS \
         /opt/xao/handlers/xao.psgi
