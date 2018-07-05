@@ -8,7 +8,7 @@ XAO::DO::Web::Redirect - browser redirection object
 
 =head1 DESCRIPTION
 
-Redirector object. 
+Redirector object.
 Can set cookies on the redirect.
 
 =cut
@@ -18,9 +18,6 @@ package XAO::DO::Web::Redirect;
 use strict;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Page');
-
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Redirect.pm,v 2.2 2005/12/12 07:32:04 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
 
 ###############################################################################
 

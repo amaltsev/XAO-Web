@@ -30,13 +30,11 @@ use File::Copy;
 
 require Exporter;
 
-use vars qw(@ISA @EXPORT_OK @EXPORT $VERSION);
+use vars qw(@ISA @EXPORT_OK @EXPORT);
 
 @ISA=qw(Exporter);
 @EXPORT_OK=qw(install_templates);
 @EXPORT=();
-
-$VERSION=(0+sprintf('%u.%03u',(q$Id: PluginUtils.pm,v 2.1 2005/01/14 01:39:56 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
 
 sub install_templates ($;$) {
     my $manifest=shift || 'MANIFEST';

@@ -4,13 +4,11 @@ use strict;
 
 require DynaLoader;
 
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA);
 
 @ISA = qw(DynaLoader);
 
-($VERSION)=(q$Id: PageSupport.pm,v 2.1 2005/01/14 01:39:56 am Exp $ =~ /(\d+\.\d+)/);
-
-bootstrap XAO::PageSupport $VERSION;
+bootstrap XAO::PageSupport;
 
 1;
 __END__

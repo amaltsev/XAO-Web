@@ -95,9 +95,6 @@ use XAO::Web;
 
 ###############################################################################
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: XAO.pm,v 2.10 2008/07/30 03:47:46 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 use vars qw($MP2);
 use vars qw($HAVE_SIZE_LIMIT);
 

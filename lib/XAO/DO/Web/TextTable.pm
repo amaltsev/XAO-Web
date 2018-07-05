@@ -35,9 +35,6 @@ use Text::FormatTable;
 
 use base XAO::Objects->load(objname => 'Web::Action');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: TextTable.pm,v 2.1 2005/01/14 01:39:57 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 ###############################################################################
 
 =head1 DESCRIPTION
@@ -159,7 +156,7 @@ sub table_head ($%) {
     my $args=get_args(\@_);
 
     my $tstack=$self->get_tstack;
-    
+
     $tstack->[0] ||
         throw $self "table_head - no current table (start/render mismatch)";
 
@@ -171,7 +168,7 @@ sub table_row ($%) {
     my $args=get_args(\@_);
 
     my $tstack=$self->get_tstack;
-    
+
     $tstack->[0] ||
         throw $self "table_row - no current table (start/render mismatch)";
 
@@ -183,7 +180,7 @@ sub table_ruler ($%) {
     my $args=get_args(\@_);
 
     my $tstack=$self->get_tstack;
-    
+
     $tstack->[0] ||
         throw $self "table_ruler - no current table (start/render mismatch)";
 
@@ -195,7 +192,7 @@ sub table_render ($%) {
     my $args=get_args(\@_);
 
     my $tstack=$self->get_tstack;
-    
+
     $tstack->[0] ||
         throw $self "table_render - no current table (start/render mismatch)";
 

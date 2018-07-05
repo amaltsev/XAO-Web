@@ -33,9 +33,6 @@ use XAO::Utils qw(:args :debug :html);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Action');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Utility.pm,v 2.3 2006/03/07 18:14:54 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 sub check_mode ($$) {
     my $self=shift;
     my $args=get_args(\@_);

@@ -103,9 +103,6 @@ use XAO::Objects;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Page');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Mailer.pm,v 2.11 2009/01/13 02:19:27 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 sub display ($;%) {
     my $self=shift;
     my $args=get_args(\@_);

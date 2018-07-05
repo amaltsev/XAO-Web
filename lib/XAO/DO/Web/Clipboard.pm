@@ -25,9 +25,6 @@ use XAO::Utils;
 use XAO::Errors qw(XAO::DO::Web::Clipboard);
 use base XAO::Objects->load(objname => 'Web::Action');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Clipboard.pm,v 2.1 2005/01/14 01:39:57 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 sub check_mode ($$) {
     my $self = shift;
     my $args = get_args(\@_);

@@ -52,6 +52,7 @@ use XAO::DO::Web::Header;
 use XAO::DO::Web::IdentifyAgent;
 use XAO::DO::Web::IdentifyUser;
 use XAO::DO::Web::Mailer;
+use XAO::DO::Web::Math;
 use XAO::DO::Web::MenuBuilder;
 use XAO::DO::Web::MultiPageNav;
 use XAO::DO::Web::Page;
@@ -66,11 +67,6 @@ use XAO::DO::Web::Utility;
 use XAO::DO::FS::Glue;
 use XAO::DO::FS::Hash;
 use XAO::DO::FS::List;
-
-###############################################################################
-
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: PreLoad.pm,v 2.1 2005/01/14 01:39:56 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
 
 ###############################################################################
 1;

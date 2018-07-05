@@ -93,9 +93,6 @@ use XAO::Utils qw(:args :debug :html);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Header.pm,v 2.4 2005/12/27 04:10:22 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 ###############################################################################
 # Displaying HTML header.
 #

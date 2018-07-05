@@ -83,9 +83,6 @@ use XAO::Utils;
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
 
-use vars qw($VERSION);
-$VERSION=(0+sprintf('%u.%03u',(q$Id: Condition.pm,v 2.9 2008/07/08 03:41:48 am Exp $ =~ /\s(\d+)\.(\d+)\s/))) || die "Bad VERSION";
-
 ###############################################################################
 
 sub check_target ($$$) {
