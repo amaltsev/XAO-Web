@@ -93,6 +93,8 @@ use warnings;
 use XAO::Utils;
 use XAO::Web;
 
+our $VERSION='2.01';    # Needed for CPAN
+
 ###############################################################################
 
 use vars qw($MP2);

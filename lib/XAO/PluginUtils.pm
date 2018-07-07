@@ -21,6 +21,7 @@ packages.
 
 =cut
 
+###############################################################################
 package XAO::PluginUtils;
 use strict;
 use XAO::Base qw($homedir);
@@ -28,13 +29,13 @@ use File::Path;
 use File::Basename;
 use File::Copy;
 
+our $VERSION='2.001';
+
 require Exporter;
 
-use vars qw(@ISA @EXPORT_OK @EXPORT);
-
-@ISA=qw(Exporter);
-@EXPORT_OK=qw(install_templates);
-@EXPORT=();
+our @ISA=qw(Exporter);
+our @EXPORT_OK=qw(install_templates);
+our @EXPORT=();
 
 sub install_templates ($;$) {
     my $manifest=shift || 'MANIFEST';

@@ -184,6 +184,8 @@ use XAO::Errors qw(XAO::DO::Web::FS);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Action');
 
+our $VERSION='2.004';
+
 ###############################################################################
 
 =item get_object (%)

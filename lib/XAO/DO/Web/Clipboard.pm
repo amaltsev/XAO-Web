@@ -25,6 +25,8 @@ use XAO::Utils;
 use XAO::Errors qw(XAO::DO::Web::Clipboard);
 use base XAO::Objects->load(objname => 'Web::Action');
 
+our $VERSION='2.001';
+
 sub check_mode ($$) {
     my $self = shift;
     my $args = get_args(\@_);

@@ -31,6 +31,10 @@ use strict;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.004';
+
+###############################################################################
+
 sub display ($;%) {
     my $self=shift;
     my $args=get_args(\@_);

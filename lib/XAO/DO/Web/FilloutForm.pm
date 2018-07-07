@@ -63,6 +63,8 @@ use XAO::Utils qw(:args :debug :html);
 use XAO::Errors qw(XAO::DO::Web::FilloutForm);
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.029';
+
 sub setup ($%);
 sub field_desc ($$;$);
 sub field_names ($);

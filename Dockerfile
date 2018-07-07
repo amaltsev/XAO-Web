@@ -52,7 +52,7 @@ RUN yum upgrade -y              \
 #
 # FIXME: Using system perl, change to plenv!
 #
-RUN   cpanm \
+RUN   cpanm -n \
         Carton \
         Plack \
         Plack::Middleware::Debug \

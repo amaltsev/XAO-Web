@@ -3,8 +3,6 @@ Dockerfile
 LICENSE
 MANIFEST
 MANIFEST.SKIP
-MYMETA.json
-MYMETA.yml
 Makefile.PL
 PageSupport/Makefile.PL
 PageSupport/PageSupport.pm

@@ -57,11 +57,14 @@ is save_agent_id. See description below.
 
 =cut
 
+###############################################################################
 package XAO::DO::Web::IdentifyAgent;
 use strict;
 use XAO::Utils qw(:debug :keys);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
+
+our $VERSION='2.001';
 
 ###############################################################################
 

@@ -93,6 +93,8 @@ use XAO::Utils qw(:args :debug :html);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.004';
+
 ###############################################################################
 # Displaying HTML header.
 #

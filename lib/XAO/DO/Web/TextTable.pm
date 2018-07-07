@@ -35,6 +35,8 @@ use Text::FormatTable;
 
 use base XAO::Objects->load(objname => 'Web::Action');
 
+our $VERSION='2.001';
+
 ###############################################################################
 
 =head1 DESCRIPTION

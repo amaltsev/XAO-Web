@@ -414,6 +414,8 @@ use XAO::Objects;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Action');
 
+our $VERSION='2.16';
+
 ###############################################################################
 
 sub check_mode($;%);

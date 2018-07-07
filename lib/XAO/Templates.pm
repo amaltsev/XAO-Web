@@ -2,17 +2,10 @@
 
 XAO::Templates - templates caching and retrieving module
 
-=head1 SYNOPSIS
-
-XXX
-
 =head1 DESCRIPTION
 
-XXX
-
 Templates retriever. Uses persistent cache to store once retrieved
-templates.  Cache top level keys are site names, for system templates
-'/' is used as a site name.
+templates.
 
 =cut
 
@@ -23,12 +16,12 @@ use XAO::Base qw($homedir $projectsdir);
 use XAO::Utils;
 use XAO::Projects qw(get_current_project_name);
 
-##
+our $VERSION='2.001';
+
 # Cache for templates.
 #
 use vars qw(%cache);
 
-##
 # Getting the text of given template.
 #
 sub get (%) {

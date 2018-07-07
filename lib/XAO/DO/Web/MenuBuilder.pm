@@ -48,6 +48,8 @@ use XAO::Templates;
 
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.002';
+
 ###############################################################################
 
 sub display ($;%) {

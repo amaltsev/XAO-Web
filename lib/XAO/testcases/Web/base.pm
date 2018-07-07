@@ -21,6 +21,42 @@ use XAO::Projects qw(:all);
 
 use base qw(XAO::testcases::base);
 
+sub new ($) {
+    my $proto=shift;
+    my $self=$proto->SUPER::new(@_);
+
+    # Site root is not set up yet at this point, so can't use the data
+    # from the test site configuration.
+    #
+    # Nearly identical code is in t/xao/projects/test/objects/Config.pm
+    #
+    my %d;
+    if(1) {
+        open(F,'.config') ||
+            die "No .config found, run 'perl Makefile.PL'";
+        local($/);
+        my $t=<F>;
+        close(F);
+        eval $t;
+    }
+
+    $self->{'skip_db_tests'}=$d{'test_dsn'} eq 'none' ? 1 : 0;
+
+    return $self;
+}
+
+sub list_tests ($) {
+    my $self=shift;
+
+    my @tests=$self->SUPER::list_tests(@_);
+
+    if($self->{'skip_db_tests'}) {
+        @tests=grep { ! /_db_/ } @tests;
+    }
+
+    return wantarray ? @tests : \@tests;
+}
+
 sub set_up {
     my $self=shift;
 
@@ -51,17 +87,7 @@ sub set_up {
     $self->{'web'}=$site;
     $self->{'cgi'}=$cgi;
 
-    $self->{'skip_db_tests'}=$site->config->can('odb') ? 0 : 1;
-
     return $self;
-}
-
-sub check_reqs {
-    my ($self,$name)=@_;
-    return 1 unless $self->{'skip_db_tests'};
-    return 1 unless $name =~ /_db_/;
-    dprint "Skipping test $name (no database config)";
-    return 0;
 }
 
 sub cgi_object {

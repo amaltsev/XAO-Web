@@ -83,6 +83,8 @@ use XAO::Utils;
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.009';
+
 ###############################################################################
 
 sub check_target ($$$) {

@@ -33,6 +33,8 @@ use XAO::Utils qw(:args :debug :html);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Action');
 
+our $VERSION='2.003';
+
 sub check_mode ($$) {
     my $self=shift;
     my $args=get_args(\@_);

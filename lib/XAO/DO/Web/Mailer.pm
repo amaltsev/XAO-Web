@@ -103,6 +103,8 @@ use XAO::Objects;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.011';
+
 sub display ($;%) {
     my $self=shift;
     my $args=get_args(\@_);

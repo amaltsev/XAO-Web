@@ -28,6 +28,8 @@ use XAO::Cache;
 use POSIX qw(mktime);
 use XAO::Errors qw(XAO::DO::Web::Config);
 
+our $VERSION='2.004';
+
 # Prototypes
 #
 sub add_cookie ($@);

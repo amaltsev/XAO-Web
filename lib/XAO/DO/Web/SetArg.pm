@@ -53,6 +53,8 @@ use XAO::Errors qw(XAO::DO::Web::SetArg);
 use XAO::Objects;
 use base XAO::Objects->load(objname => 'Web::Page');
 
+our $VERSION='2.002';
+
 ###############################################################################
 
 # Setting arguments. Actual merging is done in Page object. We just set
