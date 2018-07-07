@@ -1,14 +1,14 @@
 package XAO::PageSupport;
-require 5.005;
+require 5.010;
 use strict;
+use warnings;
 
 require DynaLoader;
 
-use vars qw(@ISA);
+our $VERSION = 2.3;
+our @ISA = qw(DynaLoader);
 
-@ISA = qw(DynaLoader);
-
-bootstrap XAO::PageSupport;
+bootstrap XAO::PageSupport $VERSION;
 
 1;
 __END__

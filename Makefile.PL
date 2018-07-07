@@ -81,30 +81,6 @@ EOT
 EOT
 }
 
-# This rather stupid workaround is here because for some reason
-# MakeMaker excludes /Config/ files from MAN3PODS
-#
-my %man3pods;
-foreach my $n (keys %{ExtUtils::Manifest::maniread()}) {
-    next unless $n =~ '^(Web).pm$' ||
-                $n =~ '^lib/(.*)\.(pm|pod)$';
-    my $man=$1;
-    $man='XAO::Web' if $man eq 'Web';
-    $man=~s/\/+/::/g;
-
-    open(F,$n) || die "Can't read $n: $!";
-    my $pod=0;
-    while(<F>) {
-        if(/^=(\w+)/) {
-            $pod=1;
-            last;
-        }
-    }
-    $pod || die "$n ($man) does not have documentation";
-
-    $man3pods{$n}='$(INST_MAN3DIR)/' . $man . '.3';
-}
-
 use XAO::Base qw($homedir);
 
 WriteMakefile(
@@ -145,22 +121,20 @@ WriteMakefile(
         'XAO::Base'                 => 1.19,
         'XAO::FS'                   => 1.19,
     },
-    #
-    'MAN3PODS'      => \%man3pods,
-    #
-    ### 'INSTALLDIRS'       => 'site',
-    ### 'INSTALLSITESCRIPT'	=> $homedir . '/handlers',
-    ### 'EXE_FILES'         => [ 'handlers/xao-apache.pl', 'handlers/xao.psgi' ],
 );
 
 sub MY::postamble
 { <<EOT;
 
-config::	README
-\t@(echo "https://github.com/amaltsev/XAO-Web";\\
+all::
+\t\@if [ -d .git ]; then (\\
+\t\techo "https://github.com/amaltsev/XAO-Web";\\
 \t\techo "-----------------------------------";\\
 \t\techo "";\\
-\t\tgit log -n 10 --no-color) > CHANGES
+\t\tgit log -n 10 --no-color 2>/dev/null;\\
+\t\techo "") > CHANGES; fi
+
+config::	README
 
 README:	lib/XAO/Web/Intro.pod
 \tpod2text -w76 lib/XAO/Web/Intro.pod > README
