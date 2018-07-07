@@ -58,8 +58,11 @@ sub AUTOLOAD {
     my $self=shift;
     my @mpath=split('::',$AUTOLOAD);
     my $method=$mpath[$#mpath];
-    my $code=$self->{'cgi'}->can($method) ||
+    my $code=$self->{'cgi'}->can($method);
+    if(!$code) {
+        return if $method eq 'DESTROY';
         die "No method $method on $self->{'cgi'}";
+    }
     return $code->($self->{'cgi'},@_);
 }
 
