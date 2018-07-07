@@ -108,12 +108,16 @@ foreach my $n (keys %{ExtUtils::Manifest::maniread()}) {
 use XAO::Base qw($homedir);
 
 WriteMakefile(
-    'ABSTRACT'      => 'XAO Web templating system',
-    'AUTHOR'        => 'Andrew Maltsev, http://ejelta.com/xao/',
-    'NAME'          => 'XAO::Web',
-    'VERSION_FROM'  => 'Web.pm',
-    'CONFIGURE_REQUIRES' => {
+    'ABSTRACT'          => 'XAO Web Framework',
+    'AUTHOR'            => 'Andrew Maltsev, http://ejelta.com/xao/',
+    'NAME'              => 'XAO::Web',
+    'VERSION_FROM'      => 'Web.pm',
+    'MIN_PERL_VERSION'  => '5.10.1',
+    'CONFIGURE_REQUIRES'=> {
         'XAO::Base'                 => 1.13,
+    },
+    'TEST_REQUIRES'     => {
+        'Test::Unit::Lite'          => 0.212,
     },
     'PREREQ_PM'     => {
         'Authen::SASL::SASLprep'    => 1.1,
@@ -153,11 +157,18 @@ sub MY::postamble
 { <<EOT;
 
 config::	README
+\t@(echo "https://github.com/amaltsev/XAO-Web";\\
+\t\techo "-----------------------------------";\\
+\t\techo "";\\
+\t\tgit log -n 10 --no-color) > CHANGES
 
 README:	lib/XAO/Web/Intro.pod
 \tpod2text -w76 lib/XAO/Web/Intro.pod > README
 
 install:: install_templates install_handlers
+
+clean::
+\trm -f t/*.pl t/*.xt
 
 install_templates:
 \t\@[ -d "$homedir" ] || \$(PERL) -e 'mkdir("$homedir",0755)'

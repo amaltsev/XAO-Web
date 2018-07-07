@@ -48,7 +48,9 @@ RUN yum upgrade -y              \
     && \
     rm -rf /var/cache/yum
 
-# File::ShareDir fails normal installation
+# Perl dependencies and XAO::Web
+#
+# FIXME: Using system perl, change to plenv!
 #
 RUN   cpanm \
         Carton \
@@ -62,6 +64,10 @@ RUN   cpanm \
         2>&1 \
     && \
     rm -rf /root/.cpanm /usr/local/share/man
+
+# Can't live without this
+#
+RUN echo "alias l='ls -alh'" >> /etc/profile.d/l-alias.sh
 
 # The default site name, override with:
 #   docker run --env XAO_SITE_NAME=yoursite ...

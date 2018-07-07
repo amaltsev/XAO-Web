@@ -32,7 +32,7 @@ sub set_up {
 sub tear_down {
     my $self=shift;
 
-    #unlink $self->{'outfile'} if $self->{'outfile'};
+    unlink $self->{'outfile'} if $self->{'outfile'} && -f $self->{'outfile'};
 
     $self->SUPER::tear_down();
 }

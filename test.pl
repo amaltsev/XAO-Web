@@ -9,5 +9,5 @@ if(@ARGV) {
     XAO::TestUtils::xao_test(@ARGV);
 }
 else {
-    XAO::TestUtils::xao_test_all('testcases::Web');
+    XAO::TestUtils::xao_test_all('testcases');
 }
