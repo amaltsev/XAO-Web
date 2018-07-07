@@ -90,10 +90,10 @@ WriteMakefile(
     'VERSION_FROM'      => 'Web.pm',
     'MIN_PERL_VERSION'  => '5.10.1',
     'CONFIGURE_REQUIRES'=> {
-        'XAO::Base'                 => 1.19,
+        'XAO::Base'                 => 1.21,
     },
     'TEST_REQUIRES'     => {
-        'XAO::Base'                 => 1.19,
+        'XAO::Base'                 => 1.21,
     },
     'PREREQ_PM'     => {
         'Authen::SASL::SASLprep'    => 1.1,
@@ -118,8 +118,8 @@ WriteMakefile(
         'Text::FormatTable'         => 0.01,
         'Time::HiRes'               => 1.9719,
         'Unicode::Normalize'        => 1.18,
-        'XAO::Base'                 => 1.19,
-        'XAO::FS'                   => 1.19,
+        'XAO::Base'                 => 1.21,
+        'XAO::FS'                   => 1.21,
     },
 );
 
