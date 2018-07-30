@@ -135,6 +135,30 @@ sub param ($;$) {
 
 ###############################################################################
 
+sub Vars ($) {
+    my $self=shift;
+
+    my $charset=$self->{'xao_param_charset'};
+
+    if(!$charset) {
+        return $self->{'cgi'}->Vars();
+    }
+
+    # There is a known incompatibility in this implementation -- our
+    # hash is never tied and cannot be used to modify the CGI object
+    # values.
+    #
+    my %vb=$self->{'cgi'}->Vars();
+    my %vu;
+    foreach my $param (keys %vb) {
+        $vu{Encode::decode($charset,$param)}=Encode::decode($charset,$vb{$param});
+    }
+
+    return wantarray ? %vu : \%vu;
+}
+
+###############################################################################
+
 sub multi_param ($;$) {
     my $self=shift;
     return $self->param(@_);
