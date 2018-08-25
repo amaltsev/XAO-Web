@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use warnings;
 use strict;
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.64;
 use ExtUtils::Manifest;
 
 my %d;
@@ -85,12 +85,13 @@ use XAO::Base qw($homedir);
 
 WriteMakefile(
     'ABSTRACT'          => 'XAO Web Framework',
-    'AUTHOR'            => 'Andrew Maltsev, http://ejelta.com/xao/',
+    'AUTHOR'            => 'Andrew Maltsev, https://ejelta.com/xao/',
     'NAME'              => 'XAO::Web',
     'VERSION_FROM'      => 'Web.pm',
     'MIN_PERL_VERSION'  => '5.10.1',
     'CONFIGURE_REQUIRES'=> {
         'XAO::Base'                 => 1.21,
+        'ExtUtils::MakeMaker'       => 6.64,
     },
     'TEST_REQUIRES'     => {
         'XAO::Base'                 => 1.21,
