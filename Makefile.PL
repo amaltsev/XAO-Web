@@ -168,10 +168,19 @@ install_handlers:
 docker-image:
 \tdocker build --build-arg "XAO_WEB_VERSION=\$(VERSION)" -t xao-web .
 \t\@echo ""
-\t\@echo "=== Docker image built, tag and push it:"
-\t\@echo "===    docker tag xao-web:latest amaltsev/xao-web:\$(VERSION)"
-\t\@echo "===    docker push amaltsev/xao-web:\$(VERSION)"
-\t\@echo "===    docker tag xao-web:latest amaltsev/xao-web:latest"
-\t\@echo "===    docker push amaltsev/xao-web:latest"
+\t\@docker image ls xao-web
+\t\@echo ""
+\t\@echo "=== Docker image built. Tag and push it with 'make docker-push'"
+
+docker-image-master:
+\tdocker build -t xao-web .
+\t\@echo ""
+\t\@docker image ls xao-web
+
+docker-push:
+\t\@docker tag xao-web:latest amaltsev/xao-web:\$(VERSION)
+\t\@docker push amaltsev/xao-web:\$(VERSION)
+\t\@docker tag xao-web:latest amaltsev/xao-web:latest
+\t\@docker push amaltsev/xao-web:latest
 EOT
 }
