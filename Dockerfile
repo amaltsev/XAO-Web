@@ -81,7 +81,7 @@ ENV XAO_SITE_NAME="app"
 #   docker run --publish 8080:80 amaltsev/xao-web
 #
 #   docker run --publish 8080:80 --env PSGI_RUNNER=starman amaltsev/xao-web
-
+#
 #   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/app amaltsev/xao-web
 #
 #   docker run -p 8080:80 -v $(pwd):/opt/xao/projects/mysite --env XAO_SITE_NAME=mysite amaltsev/xao-web
