@@ -1774,8 +1774,7 @@ sub pageurl ($;%) {
         throw $self "- no Web context, needs clipboard->'pagedesc'";
 
     my $url=$self->base_url(@_);
-    my $uri=$pagedesc->{fullpath} || '/';
-    $uri="/".$uri unless substr($uri,0,1) eq '/';
+    my $uri=$self->cgi->url(-absolute => 1);
 
     return $url.$uri;
 }
