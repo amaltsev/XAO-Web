@@ -67,6 +67,8 @@ sub clipboard (@) {
 
 Convenience shortcut to the current site configuration.
 
+=back
+
 =cut
 
 sub siteconfig ($) {

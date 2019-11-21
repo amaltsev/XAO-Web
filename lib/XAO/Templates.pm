@@ -97,6 +97,8 @@ sub get (%) {
 
 ###############################################################################
 
+=over
+
 =item filename ($;$)
 
 Checks if given path (first argument) exists and returns template's
@@ -177,6 +179,8 @@ sub list (%) {
 ###############################################################################
 1;
 __END__
+
+=back
 
 =head1 AUTHOR
 

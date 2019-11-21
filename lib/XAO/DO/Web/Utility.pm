@@ -392,7 +392,7 @@ format and Q is quarter number from 1 to 4.
 
 If "end" is not set the current quorter is assumed.
 
-=over
+=back
 
 Special argument "current" will have select_time_range() add "SELECTED"
 option to the appropriate entry in the final list. The format is the
@@ -585,6 +585,8 @@ sub select_time_range ($%) {
 ###############################################################################
 1;
 __END__
+
+=back
 
 =head1 EXPORTS
 
