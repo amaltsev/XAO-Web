@@ -98,8 +98,8 @@ WriteMakefile(
     },
     'PREREQ_PM'     => {
         'Authen::SASL::SASLprep'    => 1.1,
-        'CGI'                       => 4.14,
-        'CGI::Cookie'               => 4.14,
+        'CGI'                       => 4.50,
+        'CGI::Cookie'               => 4.50,
         'CGI::PSGI'                 => 0.15,
         'Crypt::Rijndael'           => 1.13,
         'Data::Entropy::Algorithms' => 0.007,
