@@ -284,21 +284,12 @@ sub get_mode_sub ($$$$;$) {
 sub json ($) {
     my $self=shift;
 
-    my $json=$self->{'cached_json'};
+    my $json=JSON->new->utf8;
 
-    return $json if $json;
+    $json->canonical(1) if $self->siteconfig->get('/xao/action/json_canonical');
+    $json->pretty(1)    if $self->siteconfig->get('/xao/action/json_pretty');
 
-    $json=JSON->new->utf8;
-
-    if($self->siteconfig->get('/xao/action/json_canonical')) {
-        $json->canonical;
-    }
-
-    if($self->siteconfig->get('/xao/action/json_pretty')) {
-        $json->pretty;
-    }
-
-    return $self->{'cached_json'}=$json;
+    return $json;
 }
 
 ###############################################################################
