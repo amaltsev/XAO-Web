@@ -131,6 +131,7 @@ sub tracking_url ($%) {
              '?diff=protrace&PRONumber=' . t2hq($tracknum);
     }
     elsif(lc($carrier) eq 'sefl') {
+        $tracknum =~ s/\D//g;
         $url='https://www.sefl.com/webconnect/tracing?Type=PN&RefNum1=' . t2hq($tracknum);
     }
     else {
