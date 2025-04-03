@@ -26,8 +26,8 @@ Arguments are:
  from        => optional 'from' e-mail address, default is taken from
                 'from' site configuration parameter.
  subject     => message subject;
- [text.]path => text-only template path (required);
- html.path   => html template path;
+ [text.]path => text-only template path
+ html.path   => html template path
  date        => optional date header, passed as is;
  pass        => pass parameters of the calling template to the mail template;
  ARG         => VALUE - passed to Page when executing templates;
@@ -35,6 +35,10 @@ Arguments are:
 If 'to', 'from' or 'subject' are not specified then get_to(), get_from()
 or get_subject() methods are called first. Derived class may override
 them. 'To', 'cc' and 'bcc' may be comma-separated addresses lists.
+
+To send text, html or both templates as-is, without parsing and variable
+substitution, use 'html.unparsed', 'text.unparsed', or 'unparsed'
+arguments.
 
 To send additional attachments along with the email pass the following
 arguments (where N can be any alphanumeric tag):
@@ -290,6 +294,7 @@ sub display ($;%) {
         $text=$page->expand($args,$common,{
             path        => $args->{'text.path'} || $args->{'path'},
             template    => $args->{'text.template'} || $args->{'template'},
+            unparsed    => $args->{'text.unparsed'} || $args->{'unparsed'},
         });
     }
 
@@ -300,6 +305,7 @@ sub display ($;%) {
         $html=$page->expand($args,$common,{
             path        => $args->{'html.path'},
             template    => $args->{'html.template'},
+            unparsed    => $args->{'html.unparsed'} || $args->{'unparsed'},
         });
     }
 
