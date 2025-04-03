@@ -48,6 +48,17 @@ arguments (where N can be any alphanumeric tag):
  attachment.N.pass        => pass all arguments of the calling template
  attachment.N.ARG         => VALUE - passed literally as ARG=>VALUE to the template
 
+Additional headers can be passed like this (N being any alphanumeric tag):
+
+ header.N.name  => header name, eg 'X-Clacks-Overhead'
+ header.N.value => header content, eg 'GNU Terry Pratchett'
+
+For mass emails it is helpful to provide an RFC-8058 automatic
+unsubscribe link. The link will be turned into two headers as per RFC,
+'List-Unsubscribe' and 'List-Unsubscribe-Post'.
+
+ one_click_unsubscribe => https://....
+
 The configuration for Web::Mailer is kept in a hash stored in the site
 configuration under 'mailer' name. Normally it is not required, the
 default is to use sendmail for delivery. The parameters are:
@@ -98,12 +109,12 @@ parameter for the object, `default' is used as the key.
 package XAO::DO::Web::Mailer;
 use strict;
 use Encode;
-use MIME::Lite 2.117;
+use MIME::Lite;
 use XAO::Objects;
 use XAO::Utils;
 use base XAO::Objects->load(objname => 'Web::Page');
 
-our $VERSION='2.011';
+our $VERSION='2.012';
 
 sub display ($;%) {
     my $self=shift;
@@ -119,6 +130,49 @@ sub display ($;%) {
     my $bcc=$args->{'bcc'} || '';
 
     my @ovhdr;
+
+    # Extra headers. Not sanitizing, assuming the caller knows what they
+    # are doing.
+    #
+    foreach my $k (sort keys %$args) {
+        next unless $k=~/^header\.(\w+)\.name$/;
+        my $id = $1;
+
+        my $n = $args->{"header.$id.name"};
+        my $v = $args->{"header.$id.value"};
+
+        next unless $n && $v;
+
+        $n = $1 if $n =~/^(.*):$/;
+
+        if($n =~ /^[a-z][a-z0-9-]*[a-z]$/i) {
+            push(@ovhdr, "$n:" => $v);
+        }
+        else {
+            eprint "Invalid extra header '$n', ignored";
+        }
+    }
+
+    # Unsubscribe links (RFC-8058).
+    #
+    if(my $one_click_unsubscribe = $args->{'one_click_unsubscribe'}) {
+
+        # In theory should support mailto: links, but in this day & age
+        # is it really needed?
+        #
+        if($one_click_unsubscribe =~ /^https:\/\//) {
+            push(@ovhdr,
+                'List-Unsubscribe:'         => '<' . $one_click_unsubscribe . '>',
+                'List-Unsubscribe-Post:'    => 'List-Unsubscribe=One-Click',
+            );
+        }
+        else {
+            eprint "Unsupported one click unsubscribe link '$one_click_unsubscribe', ignored";
+        }
+    }
+
+    # Configured email overrides
+    #
     if(my $override_to=$config->{'override_to'}) {
         my $to_new;
 
