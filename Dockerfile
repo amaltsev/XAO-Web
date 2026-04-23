@@ -17,7 +17,7 @@ LABEL maintainer="Andrew Maltsev am@ejelta.com"
 # Software versions to pull. Use --build-arg to override:
 #  docker build --build-arg XAO_WEB_VERSION=1.66 -t xao-web:1.66 .
 #
-ARG XAO_BASE_VERSION=1.28
+ARG XAO_BASE_VERSION=1.29
 ARG XAO_FS_VERSION=1.26
 ARG XAO_WEB_VERSION=1.93
 
